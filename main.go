@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	// Load variables in .env
 	godotenv.Load()
 
 	portString := os.Getenv("PORT")
@@ -19,8 +20,10 @@ func main() {
 	}
 	fmt.Println("Port:", portString)
 
+	// Create a new router
 	router := chi.NewRouter()
 
+	// Create a new server with the router and port number
 	srv := &http.Server{
 		Handler: router,
 		Addr:    ":" + portString,

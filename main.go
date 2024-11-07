@@ -35,9 +35,9 @@ func main() {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
-	// Connect the handleReadiness() to the "/ready" path
+	// Connect handleReadiness() to the "/ready" path
 	v1Router := chi.NewRouter()
-	v1Router.HandleFunc("/healthz", handleReadiness)
+	v1Router.Get("/healthz", handleReadiness)
 
 	// Nesting v1Router under the main router
 	router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"

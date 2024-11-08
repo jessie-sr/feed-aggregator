@@ -1,25 +1,48 @@
 package main
 
 import (
-	"fmt"
+	"database/sql"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
+	"github.com/jessie-sr/rss-aggregator/internal/db"
 	"github.com/joho/godotenv"
+
+	_ "github.com/lib/pq" // Include this even through I'm not calling it directly
 )
+
+type apiConfig struct {
+	DB *db.Queries // Hold connection to the database
+}
 
 func main() {
 	// Load variables in .env
 	godotenv.Load()
 
+	// Get port number
 	portString := os.Getenv("PORT")
 	if portString == "" {
 		log.Fatal("Port is not found in the environment")
 	}
-	fmt.Println("Port:", portString)
+
+	// Get db url
+	dbURL := os.Getenv("DB_URL")
+	if dbURL == "" {
+		log.Fatal("Database url is not found in the environment")
+	}
+
+	// Connect to db
+	conn, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		log.Fatal("Can't connect to database", err)
+	}
+
+	apiCig := apiConfig{
+		DB: db.New(conn),
+	}
 
 	// Create a new router
 	router := chi.NewRouter()
@@ -50,7 +73,7 @@ func main() {
 	}
 
 	log.Printf("Server starting on port %v", portString)
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
 	}

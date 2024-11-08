@@ -12,8 +12,7 @@ func respondWithError(w http.ResponseWriter, code int, msg string) {
 	}
 
 	type errResponse struct {
-		Error string `json: "error"` // Adds a JSON tag to help with later JSON conversion
-
+		Error string `json:"error"` // Adds a JSON tag to help with later JSON conversion (no space after :)
 	}
 
 	// Respond with an errResponse struct that contains the error message
@@ -29,6 +28,7 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 		w.WriteHeader(500) // Internal server error
 		return
 	}
+
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(code) // Write response code
 	w.Write(data)       // Write response body

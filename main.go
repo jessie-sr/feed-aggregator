@@ -62,6 +62,7 @@ func main() {
 	v1Router := chi.NewRouter()
 	v1Router.Get("/healthz", handleReadiness)
 	v1Router.Get("/error", handleError)
+	v1Router.Post("/users", apiCig.handleCreateUser)
 
 	// Nesting v1Router under the main router
 	router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"

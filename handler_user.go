@@ -14,10 +14,10 @@ func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request
 	type parameter struct {
 		Name string `json:"name"`
 	}
-	decoder := json.NewDecoder(r.Body)
+	decoder := json.NewDecoder(r.Body) // Creates a JSON decoder that reads from the request body
 
 	params := parameter{}
-	err := decoder.Decode(&params)
+	err := decoder.Decode(&params) // Reads from the request body into the params struct
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintln("Error parsing JSON:", err))
 		return
@@ -30,7 +30,7 @@ func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request
 		Name:      params.Name,
 	})
 	if err != nil {
-		respondWithError(w, 400, fmt.Sprintln("Error creating user:", err))
+		respondWithError(w, 400, fmt.Sprintf("Error creating user: %s", err))
 		return
 	}
 

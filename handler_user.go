@@ -36,3 +36,7 @@ func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request
 
 	respondWithJSON(w, 200, dbUserToUser(user))
 }
+
+func (apiCig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request) {
+
+}

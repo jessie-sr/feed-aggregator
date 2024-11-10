@@ -34,5 +34,5 @@ func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	respondWithJSON(w, 200, user)
+	respondWithJSON(w, 200, dbUserToUser(user))
 }

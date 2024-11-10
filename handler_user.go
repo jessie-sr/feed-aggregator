@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/jessie-sr/rss-aggregator/internal/auth"
 	"github.com/jessie-sr/rss-aggregator/internal/db"
 )
 
@@ -34,9 +35,21 @@ func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	respondWithJSON(w, 200, dbUserToUser(user))
+	respondWithJSON(w, 201, dbUserToUser(user))
 }
 
 func (apiCig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request) {
+	apikey, err := auth.GetApiKey(r.Header)
+	if err != nil {
+		respondWithError(w, 403, fmt.Sprintf("Authentication error: %v", err))
+		return
+	}
 
+	user, err := apiCig.DB.GetUserByApiKey(r.Context(), apikey)
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Error getting user: %s", err))
+		return
+	}
+
+	respondWithJSON(w, 200, dbUserToUser(user))
 }

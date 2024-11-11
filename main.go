@@ -63,7 +63,7 @@ func main() {
 	v1Router.Get("/healthz", handleReadiness)
 	v1Router.Get("/error", handleError)
 	v1Router.Post("/users", apiCig.handleCreateUser)
-	v1Router.Get("/users", apiCig.middlewareAuth(apiCig.handleGetUser))
+	v1Router.Get("/users", apiCig.middlewareAuth(apiCig.handleGetUser)) // Use middlewareAuth to convert handleGetUser to regular http.HandlerFunc
 
 	// Nesting v1Router under the main router
 	router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"

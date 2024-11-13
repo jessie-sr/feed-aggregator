@@ -70,6 +70,7 @@ func main() {
 	v1Router.Get("/feeds", apiCig.handleGetFeeds)
 
 	v1Router.Post("/feed_saved", apiCig.middlewareAuth(apiCig.handleCreateFeedSaved))
+	v1Router.Get("/feed_saved", apiCig.middlewareAuth(apiCig.handleGetSavedFeeds))
 
 	// Nesting v1Router under the main router
 	router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"

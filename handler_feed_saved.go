@@ -39,3 +39,15 @@ func (apiCig *apiConfig) handleCreateFeedSaved(w http.ResponseWriter, r *http.Re
 	// Return the user-feed relation through our custom feed_saved model
 	respondWithJSON(w, 201, dbFeedSavedToFeedSaved(saved))
 }
+
+func (apiCig *apiConfig) handleGetSavedFeeds(w http.ResponseWriter, r *http.Request, user db.User) {
+	// Get all the feeds using DB.GetFeeds
+	saved_feeds, err := apiCig.DB.GetSavedFeeds(r.Context(), user.ID)
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Error getting saved feeds: %s", err))
+		return
+	}
+
+	// Return the feeds through our custom feeds model
+	respondWithJSON(w, 200, dbSavedFeedsToSavedFeeds(saved_feeds))
+}

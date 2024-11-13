@@ -71,3 +71,11 @@ func dbFeedSavedToFeedSaved(dbFeedSaved db.FeedSaved) FeedSaved {
 		FeedID:    dbFeedSaved.FeedID,
 	}
 }
+
+func dbSavedFeedsToSavedFeeds(dbSavedFeeds []db.FeedSaved) []FeedSaved {
+	saved_feeds := []FeedSaved{}
+	for _, dbFeedSaved := range dbSavedFeeds {
+		saved_feeds = append(saved_feeds, dbFeedSavedToFeedSaved(dbFeedSaved))
+	}
+	return saved_feeds
+}

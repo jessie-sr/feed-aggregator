@@ -78,3 +78,19 @@ func (q *Queries) GetSavedFeeds(ctx context.Context, userID uuid.UUID) ([]FeedSa
 	}
 	return items, nil
 }
+
+const unsaveFeed = `-- name: UnsaveFeed :exec
+
+DELETE FROM feed_saved WHERE id = $1 AND user_id = $2
+`
+
+type UnsaveFeedParams struct {
+	ID     uuid.UUID
+	UserID uuid.UUID
+}
+
+// return all the feeds saved
+func (q *Queries) UnsaveFeed(ctx context.Context, arg UnsaveFeedParams) error {
+	_, err := q.db.ExecContext(ctx, unsaveFeed, arg.ID, arg.UserID)
+	return err
+}

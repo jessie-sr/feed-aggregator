@@ -41,13 +41,36 @@ func (apiCig *apiConfig) handleCreateFeedSaved(w http.ResponseWriter, r *http.Re
 }
 
 func (apiCig *apiConfig) handleGetSavedFeeds(w http.ResponseWriter, r *http.Request, user db.User) {
-	// Get all the feeds using DB.GetFeeds
+	// Get all the feeds saved by the user using DB.GetSavedFeeds
 	saved_feeds, err := apiCig.DB.GetSavedFeeds(r.Context(), user.ID)
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("Error getting saved feeds: %s", err))
 		return
 	}
 
-	// Return the feeds through our custom feeds model
+	// Return the saved feeds through our custom saved_feeds model
 	respondWithJSON(w, 200, dbSavedFeedsToSavedFeeds(saved_feeds))
+}
+
+func (apiCig *apiConfig) handleUnsaveFeed(w http.ResponseWriter, r *http.Request, user db.User) {
+	type parameter struct {
+		ID uuid.UUID `json:"id"`
+	}
+	decoder := json.NewDecoder(r.Body) // Create a JSON decoder that reads from the request body
+
+	params := parameter{}
+	err := decoder.Decode(&params) // Read from the request body into the params struct
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintln("Error parsing JSON:", err))
+		return
+	}
+
+	err = apiCig.DB.UnsaveFeed(r.Context(), db.UnsaveFeedParams{
+		ID:     params.ID,
+		UserID: user.ID,
+	})
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Error unsaving feed: %s", err))
+		return
+	}
 }

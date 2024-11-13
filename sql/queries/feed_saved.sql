@@ -6,3 +6,6 @@ RETURNING *;
 
 -- name: GetSavedFeeds :many
 SELECT * FROM feed_saved WHERE user_id = $1; -- return all the feeds saved
+
+-- name: UnsaveFeed :exec
+DELETE FROM feed_saved WHERE id = $1 AND user_id = $2; -- does not return anything

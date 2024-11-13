@@ -25,7 +25,7 @@ type Feed struct {
 	UserID    uuid.UUID `json:"user_id"`
 }
 
-type FeedSaved struct {
+type FeedFollows struct {
 	ID        uuid.UUID `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -62,20 +62,20 @@ func dbFeedsToFeeds(dbFeeds []db.Feed) []Feed {
 	return feeds
 }
 
-func dbFeedSavedToFeedSaved(dbFeedSaved db.FeedSaved) FeedSaved {
-	return FeedSaved{
-		ID:        dbFeedSaved.ID,
-		CreatedAt: dbFeedSaved.CreatedAt,
-		UpdatedAt: dbFeedSaved.UpdatedAt,
-		UserID:    dbFeedSaved.UserID,
-		FeedID:    dbFeedSaved.FeedID,
+func dbFeedFollowsToFeedFollows(dbFeedFollows db.FeedFollow) FeedFollows {
+	return FeedFollows{
+		ID:        dbFeedFollows.ID,
+		CreatedAt: dbFeedFollows.CreatedAt,
+		UpdatedAt: dbFeedFollows.UpdatedAt,
+		UserID:    dbFeedFollows.UserID,
+		FeedID:    dbFeedFollows.FeedID,
 	}
 }
 
-func dbSavedFeedsToSavedFeeds(dbSavedFeeds []db.FeedSaved) []FeedSaved {
-	saved_feeds := []FeedSaved{}
-	for _, dbFeedSaved := range dbSavedFeeds {
-		saved_feeds = append(saved_feeds, dbFeedSavedToFeedSaved(dbFeedSaved))
+func dbFollowedFeedsToFollowedFeeds(dbFollowedFeeds []db.FeedFollow) []FeedFollows {
+	saved_feeds := []FeedFollows{}
+	for _, dbFeedFollows := range dbFollowedFeeds {
+		saved_feeds = append(saved_feeds, dbFeedFollowsToFeedFollows(dbFeedFollows))
 	}
 	return saved_feeds
 }

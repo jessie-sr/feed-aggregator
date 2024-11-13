@@ -47,11 +47,11 @@ func (q *Queries) CreateFeedSaved(ctx context.Context, arg CreateFeedSavedParams
 }
 
 const getSavedFeeds = `-- name: GetSavedFeeds :many
-SELECT id, created_at, updated_at, user_id, feed_id FROM feed_saved
+SELECT id, created_at, updated_at, user_id, feed_id FROM feed_saved WHERE user_id = $1
 `
 
-func (q *Queries) GetSavedFeeds(ctx context.Context) ([]FeedSaved, error) {
-	rows, err := q.db.QueryContext(ctx, getSavedFeeds)
+func (q *Queries) GetSavedFeeds(ctx context.Context, userID uuid.UUID) ([]FeedSaved, error) {
+	rows, err := q.db.QueryContext(ctx, getSavedFeeds, userID)
 	if err != nil {
 		return nil, err
 	}

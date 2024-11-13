@@ -5,4 +5,4 @@ VALUES ($1, $2, $3, $4, $5
 RETURNING *;
 
 -- name: GetSavedFeeds :many
-SELECT * FROM feed_saved; -- return all the feeds saved
+SELECT * FROM feed_saved WHERE user_id = $1; -- return all the feeds saved

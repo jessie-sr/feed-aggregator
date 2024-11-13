@@ -45,3 +45,36 @@ func (q *Queries) CreateFeedSaved(ctx context.Context, arg CreateFeedSavedParams
 	)
 	return i, err
 }
+
+const getSavedFeeds = `-- name: GetSavedFeeds :many
+SELECT id, created_at, updated_at, user_id, feed_id FROM feed_saved
+`
+
+func (q *Queries) GetSavedFeeds(ctx context.Context) ([]FeedSaved, error) {
+	rows, err := q.db.QueryContext(ctx, getSavedFeeds)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []FeedSaved
+	for rows.Next() {
+		var i FeedSaved
+		if err := rows.Scan(
+			&i.ID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.FeedID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/go-chi/chi"
 	"github.com/google/uuid"
 	"github.com/jessie-sr/rss-aggregator/internal/db"
 )
@@ -53,24 +54,22 @@ func (apiCig *apiConfig) handleGetSavedFeeds(w http.ResponseWriter, r *http.Requ
 }
 
 func (apiCig *apiConfig) handleUnsaveFeed(w http.ResponseWriter, r *http.Request, user db.User) {
-	type parameter struct {
-		ID uuid.UUID `json:"id"`
-	}
-	decoder := json.NewDecoder(r.Body) // Create a JSON decoder that reads from the request body
-
-	params := parameter{}
-	err := decoder.Decode(&params) // Read from the request body into the params struct
+	// Extract the "feed_saved_id" parameter from the URL and parse it as a UUID
+	id_str := chi.URLParam(r, "feed_saved_id")
+	feed_saved_id, err := uuid.Parse(id_str)
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintln("Error parsing JSON:", err))
 		return
 	}
 
 	err = apiCig.DB.UnsaveFeed(r.Context(), db.UnsaveFeedParams{
-		ID:     params.ID,
+		ID:     feed_saved_id,
 		UserID: user.ID,
 	})
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("Error unsaving feed: %s", err))
 		return
 	}
+
+	respondWithJSON(w, 200, "Successfully unsaved the feed")
 }

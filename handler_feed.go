@@ -24,7 +24,7 @@ func (apiCig *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Create a new feed using db.CreateFeedParams
+	// Create a new feed using DB.CreateFeed
 	feed, err := apiCig.DB.CreateFeed(r.Context(), db.CreateFeedParams{
 		ID:        uuid.New(),
 		CreatedAt: time.Now().UTC(),
@@ -40,4 +40,16 @@ func (apiCig *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Request
 
 	// Return the feed through our custom feed model
 	respondWithJSON(w, 201, dbFeedToFeed(feed))
+}
+
+func (apiCig *apiConfig) handleGetFeeds(w http.ResponseWriter, r *http.Request) {
+	// Get all the feeds using DB.GetFeeds
+	feeds, err := apiCig.DB.GetFeeds(r.Context())
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Error getting feeds: %s", err))
+		return
+	}
+
+	// Return the feeds through our custom feeds model
+	respondWithJSON(w, 200, dbFeedsToFeeds(feeds))
 }

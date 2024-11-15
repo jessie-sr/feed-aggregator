@@ -11,3 +11,9 @@ SELECT * FROM feeds; -- return all the feeds
 SELECT * FROM feeds
 ORDER BY last_fetched_at ASC NULLS FIRST -- feeds never fetched > feeds fetched long ago > feeds fetched recently
 LIMIT 1;
+
+-- name: MarkFeedAsFetched :one
+UPDATE feeds
+SET last_fetched_at = NOW(), updated_at = NOW()
+WHERE id = $1
+RETURNING *;

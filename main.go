@@ -19,6 +19,15 @@ type apiConfig struct {
 }
 
 func main() {
+	/*
+		To test urlToFeed:
+		feeds, err := urlToFeed("https://rss.nytimes.com/services/xml/rss/nyt/PersonalTech.xml")
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(feeds)
+	*/
+
 	// Load variables in .env
 	godotenv.Load()
 

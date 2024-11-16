@@ -37,12 +37,14 @@ func startScraping(DB *db.Queries,
 func scrapeFeed(DB *db.Queries, wg *sync.WaitGroup, feed db.Feed) {
 	defer wg.Done()
 
+	// Mark feed as fetched
 	_, err := DB.MarkFeedAsFetched(context.Background(), feed.ID)
 	if err != nil {
 		log.Println("Error marking feed as fetched: ", err)
 		return
 	}
 
+	// Fetched RSS Feed from URL
 	rssFeed, err := urlToFeed(feed.Url)
 	if err != nil {
 		log.Println("Error fetching feed from URL: ", err)
@@ -54,13 +56,14 @@ func scrapeFeed(DB *db.Queries, wg *sync.WaitGroup, feed db.Feed) {
 	for _, item := range rssFeed.Channel.Item {
 		// log.Println("Found post", item.Title, "on feed", feed.Name) // This log is for testing purpose
 
+		// Extract post link
 		link := item.Link
 		if link == "" {
 			link = item.Guid // Use GUID if Link is empty
 		}
 		// log.Printf("Parsed link: %s", link)
 
-		// Initialize description
+		// Extract post description
 		description := sql.NullString{}
 
 		if item.Description != "" {
@@ -68,13 +71,14 @@ func scrapeFeed(DB *db.Queries, wg *sync.WaitGroup, feed db.Feed) {
 			description.Valid = true
 		}
 
-		// Parse time
+		// Parse time published
 		pubAt, err := time.Parse(time.RFC1123Z, item.PubDate)
 		if err != nil {
 			log.Printf("Error parsing date %v with error %v: ", item.PubDate, err)
 			continue
 		}
 
+		// Create post
 		_, err = DB.CreatePost(context.Background(), db.CreatePostParams{
 			ID:          uuid.New(),
 			CreatedAt:   time.Now().UTC(),

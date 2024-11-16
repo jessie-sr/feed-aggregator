@@ -16,8 +16,8 @@ import (
 const createPost = `-- name: CreatePost :one
 INSERT INTO posts (id, created_at, updated_at, title, description, published_at, url, feed_id)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-ON CONFLICT (url) DO UPDATE
-SET updated_at = EXCLUDED.updated_at
+ON CONFLICT (url) DO UPDATE -- updates updated_at if the post's url already exists
+SET updated_at = EXCLUDED.updated_at -- EXCLUDED: the row we want to insert
 RETURNING id, created_at, updated_at, title, description, published_at, url, feed_id
 `
 
@@ -55,4 +55,49 @@ func (q *Queries) CreatePost(ctx context.Context, arg CreatePostParams) (Post, e
 		&i.FeedID,
 	)
 	return i, err
+}
+
+const getPostsForUser = `-- name: GetPostsForUser :many
+SELECT posts.id, posts.created_at, posts.updated_at, posts.title, posts.description, posts.published_at, posts.url, posts.feed_id from posts
+JOIN feed_follows ON posts.feed_id = feed_follows.feed_id
+WHERE feed_follows.user_id = $1
+ORDER BY posts.published_at DESC
+LIMIT BY $2
+`
+
+type GetPostsForUserParams struct {
+	UserID  uuid.UUID
+	Column2 interface{}
+}
+
+func (q *Queries) GetPostsForUser(ctx context.Context, arg GetPostsForUserParams) ([]Post, error) {
+	rows, err := q.db.QueryContext(ctx, getPostsForUser, arg.UserID, arg.Column2)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Post
+	for rows.Next() {
+		var i Post
+		if err := rows.Scan(
+			&i.ID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Title,
+			&i.Description,
+			&i.PublishedAt,
+			&i.Url,
+			&i.FeedID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }

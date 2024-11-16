@@ -31,6 +31,7 @@ func urlToFeed(url string) (RSSFeed, error) {
 		Timeout: 10 * time.Second,
 	}
 
+	// Get http response
 	res, err := httpClient.Get(url)
 	if err != nil {
 		return RSSFeed{}, err
@@ -44,7 +45,7 @@ func urlToFeed(url string) (RSSFeed, error) {
 	}
 
 	rssFeed := RSSFeed{}
-	err = xml.Unmarshal(data, &rssFeed)
+	err = xml.Unmarshal(data, &rssFeed) // Parse the XML-encoded data and store them at rssFeed
 	if err != nil {
 		return RSSFeed{}, err
 	}

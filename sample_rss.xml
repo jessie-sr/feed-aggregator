@@ -1,0 +1,137 @@
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/"
+    xmlns:atom="http://www.w3.org/2005/Atom" xmlns:nyt="http://www.nytimes.com/namespaces/rss/2.0"
+    version="2.0">
+    <channel>
+        <title>NYT > Health</title>
+        <link>https://www.nytimes.com/section/health</link>
+        <atom:link href="https://rss.nytimes.com/services/xml/rss/nyt/Health.xml" rel="self"
+            type="application/rss+xml" />
+        <description />
+        <language>en-us</language>
+        <copyright>Copyright 2024 The New York Times Company</copyright>
+        <lastBuildDate>Fri, 15 Nov 2024 16:24:23 +0000</lastBuildDate>
+        <pubDate>Fri, 15 Nov 2024 02:03:37 +0000</pubDate>
+        <image>
+            <title>NYT > Health</title>
+            <url>https://static01.nyt.com/images/misc/NYT_logo_rss_250x40.png</url>
+            <link>https://www.nytimes.com/section/health</link>
+        </image>
+        <item>
+            <title>US Regulators Seek to Block UnitedHealth’s $3.3 Billion Purchase of Home Care
+                Company</title>
+            <link>https://www.nytimes.com/2024/11/12/health/united-health-home-care-antitrust.html</link>
+            <guid isPermaLink="true">
+                https://www.nytimes.com/2024/11/12/health/united-health-home-care-antitrust.html</guid>
+            <atom:link
+                href="https://www.nytimes.com/2024/11/12/health/united-health-home-care-antitrust.html"
+                rel="standout" />
+            <description>The Justice Department and four Democratic state attorneys general argued
+                that United’s takeover would limit competition and harm consumers needing home or
+                hospice care.</description>
+            <dc:creator>Reed Abelson</dc:creator>
+            <pubDate>Tue, 12 Nov 2024 20:56:35 +0000</pubDate>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org">UnitedHealth Group
+                Inc</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org">Amedisys Inc</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org">Optum Inc</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Mergers, Acquisitions
+                and Divestitures</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Health Insurance and
+                Managed Care</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Antitrust Laws and
+                Competition Issues</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Suits and Litigation
+                (Civil)</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Regulation and
+                Deregulation of Industry</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">United States Politics
+                and Government</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Home Health Care</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Elder Care</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Hospice Care</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org">Justice Department</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Attorneys General</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">Maryland</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">Illinois</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">New Jersey</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">New York State</category>
+            <media:content height="1800" medium="image"
+                url="https://static01.nyt.com/images/2024/11/12/science/12UNITED-ANTITRUST/12UNITED-ANTITRUST-mediumSquareAt3X.jpg"
+                width="1800" />
+            <media:credit>Mike Bradley/Bloomberg</media:credit>
+            <media:description>UnitedHealth Group headquarters in Minnetonka, Minn.</media:description>
+        </item>
+        <item>
+            <title>Canadian Teenager Is Country’s First Human Bird Flu Case</title>
+            <link>
+                https://www.nytimes.com/2024/11/13/world/canada/british-columbia-bird-flu-teenager.html</link>
+            <guid isPermaLink="true">
+                https://www.nytimes.com/2024/11/13/world/canada/british-columbia-bird-flu-teenager.html</guid>
+            <atom:link
+                href="https://www.nytimes.com/2024/11/13/world/canada/british-columbia-bird-flu-teenager.html"
+                rel="standout" />
+            <description>A teenager in British Columbia was hospitalized in critical condition with
+                the disease, and officials were working to find out how the person was exposed to
+                the virus.</description>
+            <dc:creator>Vjosa Isai</dc:creator>
+            <pubDate>Wed, 13 Nov 2024 20:25:11 +0000</pubDate>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Avian Influenza</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Livestock</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Agriculture and
+                Farming</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Poultry</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Birds</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">British Columbia
+                (Canada)</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">Canada</category>
+            <media:content height="1387" medium="image"
+                url="https://static01.nyt.com/images/2024/08/21/multimedia/13canada-flu/21bird-flu-02-zwvh-mediumSquareAt3X.jpg"
+                width="1387" />
+            <media:credit>Centers for Disease Control</media:credit>
+            <media:description>A colorized electron microscope image of avian influenza grown in
+                cultured cells.</media:description>
+        </item>
+        <item>
+            <title>Robert F. Kennedy Jr.’s FDA Wish List: Raw Milk, Stem Cells, Heavy Metals</title>
+            <link>https://www.nytimes.com/2024/11/12/health/robert-kennedy-jr-fda.html</link>
+            <guid isPermaLink="true">
+                https://www.nytimes.com/2024/11/12/health/robert-kennedy-jr-fda.html</guid>
+            <atom:link href="https://www.nytimes.com/2024/11/12/health/robert-kennedy-jr-fda.html"
+                rel="standout" />
+            <description>Robert F. Kennedy Jr., one of President-elect Donald J. Trump’s advisers on
+                health, is taking aim at the agency’s oversight on many fronts.</description>
+            <dc:creator>Christina Jewett</dc:creator>
+            <pubDate>Thu, 14 Nov 2024 23:47:02 +0000</pubDate>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">Kennedy, Robert F
+                Jr</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Medicine and Health</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org">Food and Drug
+                Administration</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">United States Politics
+                and Government</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Regulation and
+                Deregulation of Industry</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Presidential
+                Transition (US)</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Rumors and
+                Misinformation</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Milk</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Avian Influenza</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Hydroxychloroquine
+                (Drug)</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Blood</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Metals and Minerals</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Stem Cells</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">Autism</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">Trump, Donald J</category>
+            <category domain="http://www.nytimes.com/namespaces/keywords/des">
+                internal-paywall-exempt-elections-app</category>
+            <media:content height="1726" medium="image"
+                url="https://static01.nyt.com/images/2024/08/19/multimedia/00RFK-FDA-01/00RFK-FDA-01-mediumSquareAt3X.jpg"
+                width="1725" />
+            <media:credit>Rachel Woolf for The New York Times</media:credit>
+            <media:description>Robert F. Kennedy Jr. has threatened to fire Food and Drug
+                Administration employees, taking aim at the agency’s regulatory powers.</media:description>
+        </item>
+    </channel>
+</rss>

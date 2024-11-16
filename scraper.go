@@ -54,6 +54,12 @@ func scrapeFeed(DB *db.Queries, wg *sync.WaitGroup, feed db.Feed) {
 	for _, item := range rssFeed.Channel.Item {
 		// log.Println("Found post", item.Title, "on feed", feed.Name) // This log is for testing purpose
 
+		link := item.Link
+		if link == "" {
+			link = item.Guid // Use GUID if Link is empty
+		}
+		// log.Printf("Parsed link: %s", link)
+
 		// Initialize description
 		description := sql.NullString{}
 
@@ -76,7 +82,7 @@ func scrapeFeed(DB *db.Queries, wg *sync.WaitGroup, feed db.Feed) {
 			Title:       item.Title,
 			Description: description,
 			PublishedAt: pubAt,
-			Url:         item.Link,
+			Url:         link,
 			FeedID:      feed.ID,
 		})
 		if err != nil {

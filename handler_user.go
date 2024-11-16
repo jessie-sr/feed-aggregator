@@ -46,8 +46,8 @@ func (apiCig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request, u
 func (apiCig *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r *http.Request, user db.User) {
 	// Get all the posts using DB.GetPostsForUser
 	posts, err := apiCig.DB.GetPostsForUser(r.Context(), db.GetPostsForUserParams{
-		UserID:  user.ID,
-		Column2: 10,
+		UserID: user.ID,
+		Limit:  10,
 	})
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("Error getting posts: %s", err))

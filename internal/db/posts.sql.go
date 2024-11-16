@@ -62,16 +62,16 @@ SELECT posts.id, posts.created_at, posts.updated_at, posts.title, posts.descript
 JOIN feed_follows ON posts.feed_id = feed_follows.feed_id
 WHERE feed_follows.user_id = $1
 ORDER BY posts.published_at DESC
-LIMIT BY $2
+LIMIT $2
 `
 
 type GetPostsForUserParams struct {
-	UserID  uuid.UUID
-	Column2 interface{}
+	UserID uuid.UUID
+	Limit  int32
 }
 
 func (q *Queries) GetPostsForUser(ctx context.Context, arg GetPostsForUserParams) ([]Post, error) {
-	rows, err := q.db.QueryContext(ctx, getPostsForUser, arg.UserID, arg.Column2)
+	rows, err := q.db.QueryContext(ctx, getPostsForUser, arg.UserID, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

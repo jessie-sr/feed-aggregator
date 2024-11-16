@@ -86,6 +86,8 @@ func main() {
 	v1Router.Get("/feed_follows", apiCig.middlewareAuth(apiCig.handleGetFollowedFeeds))
 	v1Router.Delete("/feed_follows/{feed_follows_id}", apiCig.middlewareAuth(apiCig.handleUnfollowFeed))
 
+	v1Router.Get("/posts", apiCig.middlewareAuth(apiCig.handleGetPostsForUser))
+
 	// Nesting v1Router under the main router
 	router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"
 

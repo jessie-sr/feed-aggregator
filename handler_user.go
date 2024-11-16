@@ -54,6 +54,6 @@ func (apiCig *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	// Return the feeds through our custom feeds model
-	respondWithJSON(w, 200, dbFeedsToFeeds())
+	// Return the posts through our custom posts model
+	respondWithJSON(w, 200, dbPostsToPosts(posts))
 }

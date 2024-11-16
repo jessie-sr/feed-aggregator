@@ -48,8 +48,10 @@ func scrapeFeed(db *db.Queries, wg *sync.WaitGroup, feed db.Feed) {
 	}
 
 	// This log is for testing purpose
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds) // Use precise timestamps to avoid logs being out of order due to concurrency or buffer issues
+
 	for _, item := range rssFeed.Channel.Item {
-		log.Println("Found post", item.Title)
+		log.Println("Found post", item.Title, "on feed", feed.Name)
 	}
 	log.Printf("Feed %s collected, %v posts found", feed.Name, len(rssFeed.Channel.Item))
 

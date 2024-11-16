@@ -33,6 +33,17 @@ type FeedFollows struct {
 	FeedID    uuid.UUID `json:"feed_id"`
 }
 
+type Post struct {
+	ID          uuid.UUID `json:"id"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	Title       string    `json:"title"`
+	Description *string   `json:"description"` // Use *string rather than sql.NullString for simpler JSON marshalling/unmarshalling
+	PublishedAt time.Time `json:"published_at"`
+	Url         string    `json:"url"`
+	FeedID      uuid.UUID `json:"feed_id"`
+}
+
 func dbUserToUser(dbUser db.User) User {
 	return User{
 		ID:        dbUser.ID,
@@ -78,4 +89,30 @@ func dbFollowedFeedsToFollowedFeeds(dbFollowedFeeds []db.FeedFollow) []FeedFollo
 		saved_feeds = append(saved_feeds, dbFeedFollowsToFeedFollows(dbFeedFollows))
 	}
 	return saved_feeds
+}
+
+func dbPostToPost(dbPost db.Post) Post {
+	var description *string
+	if dbPost.Description.Valid {
+		description = &dbPost.Description.String
+	}
+
+	return Post{
+		ID:          dbPost.ID,
+		CreatedAt:   dbPost.CreatedAt,
+		UpdatedAt:   dbPost.UpdatedAt,
+		Title:       dbPost.Title,
+		Description: description,
+		PublishedAt: dbPost.PublishedAt,
+		Url:         dbPost.Url,
+		FeedID:      dbPost.FeedID,
+	}
+}
+
+func dbPostsToPosts(dbPosts []db.Post) []Post {
+	posts := []Post{}
+	for _, dbPost := range dbPosts {
+		posts = append(posts, dbPostToPost(dbPost))
+	}
+	return posts
 }

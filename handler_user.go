@@ -42,3 +42,18 @@ func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request
 func (apiCig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request, user db.User) {
 	respondWithJSON(w, 200, dbUserToUser(user))
 }
+
+func (apiCig *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r *http.Request, user db.User) {
+	// Get all the posts using DB.GetPostsForUser
+	posts, err := apiCig.DB.GetPostsForUser(r.Context(), db.GetPostsForUserParams{
+		UserID:  user.ID,
+		Column2: 10,
+	})
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Error getting posts: %s", err))
+		return
+	}
+
+	// Return the feeds through our custom feeds model
+	respondWithJSON(w, 200, dbFeedsToFeeds())
+}

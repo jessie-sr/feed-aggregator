@@ -48,6 +48,14 @@ func handlerLogin(s *State, cmd Command) error {
 	return nil
 }
 
+func handlerRegister(s *State, cmds Commands, args []string) error {
+	if len(args) < 2 {
+		return fmt.Errorf("Malformed command: no command provided")
+	}
+	// TODO
+	return nil
+}
+
 // Register a new handler function for a command name
 func (c *Commands) register(name string, f func(*State, Command) error) {
 	if c.handlers == nil {

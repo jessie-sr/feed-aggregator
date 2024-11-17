@@ -23,8 +23,8 @@ This project is an efficient **RSS feed aggregator server** in **Go**. It enable
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/jessie-sr/rss-aggregator.git
-   cd rss-aggregator
+   git clone https://github.com/jessie-sr/feed-aggregator.git
+   cd feed-aggregator
    ```
 
 2. Configure Environment Variables:

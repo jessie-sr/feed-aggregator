@@ -1,14 +1,9 @@
 package main
 
 import (
-	"database/sql"
 	"log"
-	"net/http"
 	"os"
-	"time"
 
-	"github.com/go-chi/chi"
-	"github.com/go-chi/cors"
 	"github.com/jessie-sr/rss-aggregator/internal/config"
 	"github.com/jessie-sr/rss-aggregator/internal/db"
 	"github.com/joho/godotenv"
@@ -76,63 +71,65 @@ func main() {
 		log.Fatalf("Error executing command '%s': %v", cmd.Name, err)
 	}
 
-	// Connect to db
-	dbURL := cfg.DBUrl
-	conn, err := sql.Open("postgres", dbURL)
-	if err != nil {
-		log.Fatal("Can't connect to database", err)
-	}
+	/*
+		// Connect to db
+		dbURL := cfg.DBUrl
+		conn, err := sql.Open("postgres", dbURL)
+		if err != nil {
+			log.Fatal("Can't connect to database", err)
+		}
 
-	database := db.New(conn)
-	apiCig := apiConfig{
-		DB: database,
-	}
+		database := db.New(conn)
+		apiCig := apiConfig{
+			DB: database,
+		}
 
-	go startScraping(database, 10, time.Minute)
+		go startScraping(database, 10, time.Minute)
 
-	// Create a new router
-	router := chi.NewRouter()
+		// Create a new router
+		router := chi.NewRouter()
 
-	router.Use(cors.Handler(cors.Options{
-		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
-		AllowedOrigins: []string{"https://*", "http://*"},
-		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-		ExposedHeaders:   []string{"Link"},
-		AllowCredentials: false,
-		MaxAge:           300, // Maximum value not ignored by any of major browsers
-	}))
+		router.Use(cors.Handler(cors.Options{
+			// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+			AllowedOrigins: []string{"https://*", "http://*"},
+			// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+			AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+			ExposedHeaders:   []string{"Link"},
+			AllowCredentials: false,
+			MaxAge:           300, // Maximum value not ignored by any of major browsers
+		}))
 
-	// Connect handlerReadiness() to the different paths
-	v1Router := chi.NewRouter()
-	v1Router.Get("/healthz", handlerReadiness)
-	v1Router.Get("/error", handlerError)
+		// Connect handlerReadiness() to the different paths
+		v1Router := chi.NewRouter()
+		v1Router.Get("/healthz", handlerReadiness)
+		v1Router.Get("/error", handlerError)
 
-	v1Router.Post("/users", apiCig.handlerCreateUser)
-	v1Router.Get("/users", apiCig.middlewareAuth(apiCig.handlerGetUser)) // Use middlewareAuth to convert handlerGetUser to regular http.HandlerrFunc
+		v1Router.Post("/users", apiCig.handlerCreateUser)
+		v1Router.Get("/users", apiCig.middlewareAuth(apiCig.handlerGetUser)) // Use middlewareAuth to convert handlerGetUser to regular http.HandlerrFunc
 
-	v1Router.Post("/feeds", apiCig.middlewareAuth(apiCig.handlerCreateFeed))
-	v1Router.Get("/feeds", apiCig.handlerGetFeeds)
+		v1Router.Post("/feeds", apiCig.middlewareAuth(apiCig.handlerCreateFeed))
+		v1Router.Get("/feeds", apiCig.handlerGetFeeds)
 
-	v1Router.Post("/feed_follows", apiCig.middlewareAuth(apiCig.handlerCreateFeedFollows))
-	v1Router.Get("/feed_follows", apiCig.middlewareAuth(apiCig.handlerGetFollowedFeeds))
-	v1Router.Delete("/feed_follows/{feed_follows_id}", apiCig.middlewareAuth(apiCig.handlerUnfollowFeed))
+		v1Router.Post("/feed_follows", apiCig.middlewareAuth(apiCig.handlerCreateFeedFollows))
+		v1Router.Get("/feed_follows", apiCig.middlewareAuth(apiCig.handlerGetFollowedFeeds))
+		v1Router.Delete("/feed_follows/{feed_follows_id}", apiCig.middlewareAuth(apiCig.handlerUnfollowFeed))
 
-	v1Router.Get("/posts", apiCig.middlewareAuth(apiCig.handlerGetPostsForUser))
+		v1Router.Get("/posts", apiCig.middlewareAuth(apiCig.handlerGetPostsForUser))
 
-	// Nesting v1Router under the main router
-	router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"
+		// Nesting v1Router under the main router
+		router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"
 
-	// Create a new server with the router and port number
-	srv := &http.Server{
-		Handler: router,
-		Addr:    ":" + portString,
-	}
+		// Create a new server with the router and port number
+		srv := &http.Server{
+			Handler: router,
+			Addr:    ":" + portString,
+		}
 
-	log.Printf("Server starting on port %v", portString)
-	err = srv.ListenAndServe()
-	if err != nil {
-		log.Fatal(err)
-	}
+		log.Printf("Server starting on port %v", portString)
+		err = srv.ListenAndServe()
+		if err != nil {
+			log.Fatal(err)
+		}
+	*/
 }

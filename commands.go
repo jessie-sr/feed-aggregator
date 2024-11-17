@@ -59,13 +59,13 @@ func (c *Commands) run(s *State, cmd Command) error {
 	// Check if the command exists in the handlers map
 	handler, exists := c.handlers[cmd.Name]
 	if !exists {
-		return fmt.Errorf("unknown command: %s", cmd.Name)
+		return fmt.Errorf("unknown command")
 	}
 
 	// Execute the command handler
 	err := handler(s, cmd)
 	if err != nil {
-		return fmt.Errorf("error executing command %s: %w", cmd.Name, err)
+		return err
 	}
 
 	return nil

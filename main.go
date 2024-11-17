@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
+	"github.com/jessie-sr/rss-aggregator/internal/config"
 	"github.com/jessie-sr/rss-aggregator/internal/db"
 	"github.com/joho/godotenv"
 
@@ -38,13 +39,25 @@ func main() {
 		log.Fatal("Port is not found in the environment")
 	}
 
-	// Get db url
-	dbURL := os.Getenv("DB_URL")
-	if dbURL == "" {
-		log.Fatal("Database url is not found in the environment")
+	filePath, err := config.GetFilePath()
+	if err != nil {
+		log.Fatal("Can't find the file", err)
+	}
+
+	// Read the Config struct located at ~/.gatorconfig.json
+	cfg, err := config.Read(filePath)
+	if err != nil {
+		log.Fatal("Can't read the file", err)
+	}
+
+	// Set current user as jessie
+	err = cfg.SetUser(filePath, "jessie")
+	if err != nil {
+		log.Fatal("Can't set the current user", err)
 	}
 
 	// Connect to db
+	dbURL := cfg.DBUrl
 	conn, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal("Can't connect to database", err)

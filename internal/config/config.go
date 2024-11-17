@@ -54,7 +54,7 @@ func (cfg Config) SetUser(filePath string, user string) error {
 }
 
 // Return the complete fileName of ~/.gatorconfig.json
-func getFilePath() (string, error) {
+func GetFilePath() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		log.Println("Error finding home directory,", err)

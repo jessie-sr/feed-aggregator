@@ -10,8 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const configFileName = ".gatorconfig.json"
-
 func TestReadConfig(t *testing.T) {
 	tempDir := t.TempDir()
 	tempFile := filepath.Join(tempDir, ".gatorconfig.json")

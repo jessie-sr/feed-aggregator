@@ -2,8 +2,10 @@ package config_test
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/jessie-sr/rss-aggregator/internal/config"
@@ -49,4 +51,54 @@ func TestSetUser(t *testing.T) {
 	updatedCfg, err := config.Read(tempFile)
 	assert.NoError(t, err)
 	assert.Equal(t, "new_mock_user", updatedCfg.CurrentUserName)
+}
+
+func TestHandlerLogin_NoArgs(t *testing.T) {
+	tempDir := t.TempDir()
+	tempFile := filepath.Join(tempDir, ".gatorconfig.json")
+
+	state := &config.State{
+		Ptr: &config.Config{},
+	}
+	cmd := config.Command{
+		Name: "login",
+		Args: []string{}, // No username provided
+	}
+
+	err := config.HandlerLogin(tempFile, state, cmd)
+	assert.EqualError(t, err, "expect username but found none")
+}
+
+func TestHandlerLogin_ValidUsername(t *testing.T) {
+	// Create a temporary file to mock ~/.gatorconfig.json
+	tempDir := t.TempDir()
+	tempFile := filepath.Join(tempDir, ".gatorconfig.json")
+
+	// Mock state and command
+	state := &config.State{
+		Ptr: &config.Config{},
+	}
+	cmd := config.Command{
+		Name: "login",
+		Args: []string{"testuser"},
+	}
+
+	// Capture log output
+	var logs strings.Builder
+	log.SetOutput(&logs)
+	defer log.SetOutput(os.Stderr)
+
+	err := config.HandlerLogin(tempFile, state, cmd)
+	assert.NoError(t, err)
+
+	// Verify log contains the correct message
+	assert.Contains(t, logs.String(), "Current user is set as testuser")
+
+	// Verify file content
+	data, err := config.Read(tempFile)
+	assert.NoError(t, err)
+
+	jsonData, err := json.Marshal(data)
+	assert.NoError(t, err)
+	assert.Contains(t, string(jsonData), `"current_user_name":"testuser"`)
 }

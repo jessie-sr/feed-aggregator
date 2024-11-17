@@ -1,4 +1,4 @@
-# RSS Feed Aggregator Server in Go
+# RSS Feed Aggregator Server
 
 ## Overview
 

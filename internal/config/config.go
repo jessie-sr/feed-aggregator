@@ -18,40 +18,33 @@ import (
 const configFileName = ".gatorconfig.json"
 
 type Config struct {
-	dbUrl           string `json:"db_url"`
+	DBUrl           string `json:"db_url"`
 	CurrentUserName string `json:"current_user_name"`
 }
 
 // Read the JSON file located at ~/.gatorconfig.json and return a Config struct.
-func Read() (Config, error) {
-
-	filePath, err := getFilePath()
-	if err != nil {
-		log.Println("Error finding home directory:", err)
-		return Config{}, err
-	}
-
+func Read(filePath string) (Config, error) {
 	bytes, err := os.ReadFile(filePath)
 	if err != nil {
 		log.Println("Error opening the file:", err)
 		return Config{}, err
 	}
 
-	var config Config
-	err = json.Unmarshal(bytes, &config) // Parse the JSON-encoded data and store the result in config
+	var cfg Config
+	err = json.Unmarshal(bytes, &cfg) // Parse the JSON-encoded data and store the result in config
 	if err != nil {
 		log.Println("Failed to parse data as JSON:", err)
 		return Config{}, err
 	}
 
-	return config, nil
+	return cfg, nil
 }
 
 // Set the CurrentUserName field of the Config struct and
 // write it to the JSON file
-func (config Config) SetUser(user string) error {
-	config.CurrentUserName = user
-	err := write(config)
+func (cfg Config) SetUser(filePath string, user string) error {
+	cfg.CurrentUserName = user
+	err := write(filePath, cfg)
 	if err != nil {
 		log.Println("Error setting current user,", err)
 		return err
@@ -73,14 +66,8 @@ func getFilePath() (string, error) {
 }
 
 // Write config to ~/.gatorconfig.json
-func write(config Config) error {
-	filePath, err := getFilePath()
-	if err != nil {
-		log.Println("Error finding home directory:", err)
-		return err
-	}
-
-	bytes, err := json.Marshal(config)
+func write(filePath string, cfg Config) error {
+	bytes, err := json.Marshal(cfg) // Return the JSON encoding of config
 	if err != nil {
 		log.Println("Failed to encode data as JSON:", err)
 		return err

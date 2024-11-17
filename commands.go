@@ -1,14 +1,16 @@
-package config
+package main
 
 import (
 	"errors"
 	"fmt"
 	"log"
+
+	"github.com/jessie-sr/rss-aggregator/internal/config"
 )
 
 // A state holds a pointer to a config
 type State struct {
-	Ptr *Config
+	Ptr *config.Config
 }
 
 // A command contains a name and a slice of string arguments
@@ -29,7 +31,7 @@ func handlerLogin(s *State, cmd Command) error {
 		return errors.New("expect username but found none")
 	}
 
-	filePath, err := GetFilePath()
+	filePath, err := config.GetFilePath()
 	if err != nil {
 		log.Println("Error finding the file:", err)
 		return err
@@ -63,8 +65,7 @@ func (c *Commands) run(s *State, cmd Command) error {
 	// Execute the command handler
 	err := handler(s, cmd)
 	if err != nil {
-		log.Printf("error executing command %s: %w", cmd.Name, err)
-		return err
+		return fmt.Errorf("error executing command %s: %w", cmd.Name, err)
 	}
 
 	return nil

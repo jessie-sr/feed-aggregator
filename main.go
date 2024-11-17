@@ -50,10 +50,30 @@ func main() {
 		log.Fatal("Can't read the file", err)
 	}
 
-	// Set current user as jessie
-	err = cfg.SetUser(filePath, "jessie")
+	// Store config in a state
+	state := State{
+		Ptr: &cfg,
+	}
+
+	// Initialize cmds and register handler functions
+	cmds := Commands{}
+	cmds.register("login", handlerLogin) // Register the "login" command
+
+	// Validate CLI input
+	if len(os.Args) < 2 {
+		log.Fatal("Malformed command: no command provided")
+	}
+
+	// Parse CLI input to create a Command
+	cmd := Command{
+		Name: os.Args[1],
+		Args: os.Args[2:],
+	}
+
+	// Execute the command
+	err = cmds.run(&state, cmd)
 	if err != nil {
-		log.Fatal("Can't set the current user", err)
+		log.Fatalf("Error executing command '%s': %v", cmd.Name, err)
 	}
 
 	// Connect to db

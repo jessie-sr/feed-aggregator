@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"log"
 )
 
@@ -22,10 +23,16 @@ type Commands struct {
 	handlers map[string]func(*State, Command) error // Map of command names to their handler functions
 }
 
-func handlerLogin(filePath string, s *State, cmd Command) error {
+func handlerLogin(s *State, cmd Command) error {
 	// Check if cmd.Args contains username
 	if len(cmd.Args) == 0 {
 		return errors.New("expect username but found none")
+	}
+
+	filePath, err := GetFilePath()
+	if err != nil {
+		log.Println("Error finding the file:", err)
+		return err
 	}
 
 	// Set the user to the given username
@@ -43,4 +50,22 @@ func (c *Commands) register(name string, f func(*State, Command) error) {
 		c.handlers = make(map[string]func(*State, Command) error) // Initialize the map if nil
 	}
 	c.handlers[name] = f
+}
+
+// Run a given command with the provided state if it exists
+func (c *Commands) run(s *State, cmd Command) error {
+	// Check if the command exists in the handlers map
+	handler, exists := c.handlers[cmd.Name]
+	if !exists {
+		return fmt.Errorf("unknown command: %s", cmd.Name)
+	}
+
+	// Execute the command handler
+	err := handler(s, cmd)
+	if err != nil {
+		log.Printf("error executing command %s: %w", cmd.Name, err)
+		return err
+	}
+
+	return nil
 }

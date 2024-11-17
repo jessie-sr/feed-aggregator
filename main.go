@@ -84,22 +84,22 @@ func main() {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
-	// Connect handleReadiness() to the different paths
+	// Connect handlerReadiness() to the different paths
 	v1Router := chi.NewRouter()
-	v1Router.Get("/healthz", handleReadiness)
-	v1Router.Get("/error", handleError)
+	v1Router.Get("/healthz", handlerReadiness)
+	v1Router.Get("/error", handlerError)
 
-	v1Router.Post("/users", apiCig.handleCreateUser)
-	v1Router.Get("/users", apiCig.middlewareAuth(apiCig.handleGetUser)) // Use middlewareAuth to convert handleGetUser to regular http.HandlerFunc
+	v1Router.Post("/users", apiCig.handlerCreateUser)
+	v1Router.Get("/users", apiCig.middlewareAuth(apiCig.handlerGetUser)) // Use middlewareAuth to convert handlerGetUser to regular http.HandlerrFunc
 
-	v1Router.Post("/feeds", apiCig.middlewareAuth(apiCig.handleCreateFeed))
-	v1Router.Get("/feeds", apiCig.handleGetFeeds)
+	v1Router.Post("/feeds", apiCig.middlewareAuth(apiCig.handlerCreateFeed))
+	v1Router.Get("/feeds", apiCig.handlerGetFeeds)
 
-	v1Router.Post("/feed_follows", apiCig.middlewareAuth(apiCig.handleCreateFeedFollows))
-	v1Router.Get("/feed_follows", apiCig.middlewareAuth(apiCig.handleGetFollowedFeeds))
-	v1Router.Delete("/feed_follows/{feed_follows_id}", apiCig.middlewareAuth(apiCig.handleUnfollowFeed))
+	v1Router.Post("/feed_follows", apiCig.middlewareAuth(apiCig.handlerCreateFeedFollows))
+	v1Router.Get("/feed_follows", apiCig.middlewareAuth(apiCig.handlerGetFollowedFeeds))
+	v1Router.Delete("/feed_follows/{feed_follows_id}", apiCig.middlewareAuth(apiCig.handlerUnfollowFeed))
 
-	v1Router.Get("/posts", apiCig.middlewareAuth(apiCig.handleGetPostsForUser))
+	v1Router.Get("/posts", apiCig.middlewareAuth(apiCig.handlerGetPostsForUser))
 
 	// Nesting v1Router under the main router
 	router.Mount("/v1", v1Router) // "/healthz" -> "/v1/healthz"

@@ -10,7 +10,7 @@ import (
 	"github.com/jessie-sr/rss-aggregator/internal/db"
 )
 
-func (apiCig *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Request, user db.User) {
+func (apiCig *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Request, user db.User) {
 	type parameter struct {
 		Name string `json:"name"`
 		Url  string `json:"url"`
@@ -42,7 +42,7 @@ func (apiCig *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Request
 	respondWithJSON(w, 201, dbFeedToFeed(feed))
 }
 
-func (apiCig *apiConfig) handleGetFeeds(w http.ResponseWriter, r *http.Request) {
+func (apiCig *apiConfig) handlerGetFeeds(w http.ResponseWriter, r *http.Request) {
 	// Get all the feeds using DB.GetFeeds
 	feeds, err := apiCig.DB.GetFeeds(r.Context())
 	if err != nil {

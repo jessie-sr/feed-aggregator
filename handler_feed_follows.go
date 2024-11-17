@@ -11,7 +11,7 @@ import (
 	"github.com/jessie-sr/rss-aggregator/internal/db"
 )
 
-func (apiCig *apiConfig) handleCreateFeedFollows(w http.ResponseWriter, r *http.Request, user db.User) {
+func (apiCig *apiConfig) handlerCreateFeedFollows(w http.ResponseWriter, r *http.Request, user db.User) {
 	type parameter struct {
 		FeedID uuid.UUID `json:"feed_id"`
 	}
@@ -41,7 +41,7 @@ func (apiCig *apiConfig) handleCreateFeedFollows(w http.ResponseWriter, r *http.
 	respondWithJSON(w, 201, dbFeedFollowsToFeedFollows(saved))
 }
 
-func (apiCig *apiConfig) handleGetFollowedFeeds(w http.ResponseWriter, r *http.Request, user db.User) {
+func (apiCig *apiConfig) handlerGetFollowedFeeds(w http.ResponseWriter, r *http.Request, user db.User) {
 	// Get all the feeds saved by the user using DB.GetFollowedFeeds
 	saved_feeds, err := apiCig.DB.GetFollowedFeeds(r.Context(), user.ID)
 	if err != nil {
@@ -53,7 +53,7 @@ func (apiCig *apiConfig) handleGetFollowedFeeds(w http.ResponseWriter, r *http.R
 	respondWithJSON(w, 200, dbFollowedFeedsToFollowedFeeds(saved_feeds))
 }
 
-func (apiCig *apiConfig) handleUnfollowFeed(w http.ResponseWriter, r *http.Request, user db.User) {
+func (apiCig *apiConfig) handlerUnfollowFeed(w http.ResponseWriter, r *http.Request, user db.User) {
 	// Extract the "feed_follows_id" parameter from the URL and parse it as a UUID
 	id_str := chi.URLParam(r, "feed_follows_id")
 	feed_follows_id, err := uuid.Parse(id_str)

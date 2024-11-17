@@ -46,7 +46,7 @@ func (cfg Config) SetUser(filePath string, user string) error {
 	cfg.CurrentUserName = user
 	err := write(filePath, cfg)
 	if err != nil {
-		log.Println("Error setting current user,", err)
+		log.Println("Error setting current user:", err)
 		return err
 	}
 
@@ -57,7 +57,7 @@ func (cfg Config) SetUser(filePath string, user string) error {
 func GetFilePath() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		log.Println("Error finding home directory,", err)
+		log.Println("Error finding home directory:", err)
 		return "", err
 	}
 

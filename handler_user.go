@@ -10,7 +10,7 @@ import (
 	"github.com/jessie-sr/rss-aggregator/internal/db"
 )
 
-func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
+func (apiCig *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) {
 	type parameter struct {
 		Name string `json:"name"`
 	}
@@ -39,11 +39,11 @@ func (apiCig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request
 	respondWithJSON(w, 201, dbUserToUser(user))
 }
 
-func (apiCig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request, user db.User) {
+func (apiCig *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request, user db.User) {
 	respondWithJSON(w, 200, dbUserToUser(user))
 }
 
-func (apiCig *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r *http.Request, user db.User) {
+func (apiCig *apiConfig) handlerGetPostsForUser(w http.ResponseWriter, r *http.Request, user db.User) {
 	// Get all the posts using DB.GetPostsForUser
 	posts, err := apiCig.DB.GetPostsForUser(r.Context(), db.GetPostsForUserParams{
 		UserID: user.ID,

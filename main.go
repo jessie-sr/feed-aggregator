@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
@@ -45,9 +46,17 @@ func main() {
 		log.Fatal("Can't read the file", err)
 	}
 
-	// Store config in a state
+	// Connect to db
+	dbURL := cfg.DBUrl
+	conn, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		log.Fatal("Can't connect to database", err)
+	}
+
+	// Store dbQueries and config in a state
 	state := State{
-		Ptr: &cfg,
+		DB:  db.New(conn),
+		Cfg: &cfg,
 	}
 
 	// Initialize cmds and register handler functions
@@ -72,14 +81,6 @@ func main() {
 	}
 
 	/*
-		// Connect to db
-		dbURL := cfg.DBUrl
-		conn, err := sql.Open("postgres", dbURL)
-		if err != nil {
-			log.Fatal("Can't connect to database", err)
-		}
-
-		database := db.New(conn)
 		apiCig := apiConfig{
 			DB: database,
 		}
@@ -132,4 +133,5 @@ func main() {
 			log.Fatal(err)
 		}
 	*/
+
 }

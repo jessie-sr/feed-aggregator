@@ -6,11 +6,13 @@ import (
 	"log"
 
 	"github.com/jessie-sr/rss-aggregator/internal/config"
+	"github.com/jessie-sr/rss-aggregator/internal/db"
 )
 
 // A state holds a pointer to a config
 type State struct {
-	Ptr *config.Config
+	DB  *db.Queries
+	Cfg *config.Config
 }
 
 // A command contains a name and a slice of string arguments
@@ -39,7 +41,7 @@ func handlerLogin(s *State, cmd Command) error {
 
 	// Set the user to the given username
 	username := cmd.Args[0]
-	cfg := *(s.Ptr)
+	cfg := *(s.Cfg)
 	cfg.SetUser(filePath, username)
 
 	log.Printf("Current user is set as %v", username)

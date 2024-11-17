@@ -47,7 +47,20 @@ func Read() (Config, error) {
 	return config, nil
 }
 
-// Return the complete fileName
+// Set the CurrentUserName field of the Config struct and
+// write it to the JSON file
+func (config Config) SetUser(user string) error {
+	config.CurrentUserName = user
+	err := write(config)
+	if err != nil {
+		log.Println("Error setting current user,", err)
+		return err
+	}
+
+	return nil
+}
+
+// Return the complete fileName of ~/.gatorconfig.json
 func getFilePath() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -59,6 +72,7 @@ func getFilePath() (string, error) {
 	return fileName, nil
 }
 
+// Write config to ~/.gatorconfig.json
 func write(config Config) error {
 	filePath, err := getFilePath()
 	if err != nil {
@@ -73,5 +87,9 @@ func write(config Config) error {
 	}
 
 	err = os.WriteFile(filePath, bytes, 0644)
-	return err
+	if err != nil {
+		log.Println("Error writing to file:", err)
+		return err
+	}
+	return nil
 }

@@ -19,9 +19,10 @@ type Command struct {
 
 // A commands struct holds all the commands the CLI can handle
 type Commands struct {
+	handlers map[string]func(*State, Command) error // Map of command names to their handler functions
 }
 
-func HandlerLogin(filePath string, s *State, cmd Command) error {
+func handlerLogin(filePath string, s *State, cmd Command) error {
 	// Check if cmd.Args contains username
 	if len(cmd.Args) == 0 {
 		return errors.New("expect username but found none")
@@ -34,4 +35,12 @@ func HandlerLogin(filePath string, s *State, cmd Command) error {
 
 	log.Printf("Current user is set as %v", username)
 	return nil
+}
+
+// Register a new handler function for a command name
+func (c *Commands) register(name string, f func(*State, Command) error) {
+	if c.handlers == nil {
+		c.handlers = make(map[string]func(*State, Command) error) // Initialize the map if nil
+	}
+	c.handlers[name] = f
 }
